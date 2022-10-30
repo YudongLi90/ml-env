@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  python-env:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: yli90:ml-env
+    container_name: ml-env
+    restart: always

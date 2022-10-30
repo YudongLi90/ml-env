@@ -1,0 +1,39 @@
+name: easyvision-env
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - eventlet
+  - flask
+  - flask-cors
+  - flask-login
+  - flask-socketio
+  - watchdog
+  - pytest
+  - pytest-ordering
+  - imantics
+  - celery
+  - Shapely
+  - tensorflow
+  - keras
+  - opencv
+  - numpy
+  - h5py
+  - imgaug
+  - cython
+  - scikit-image
+  - requests
+  - scipy
+  - Pillow
+  - matplotlib
+  - gunicorn[eventlet]
+  - pycocotools
+  - pytorch
+  - torchvision
+  - pip
+  - pip:
+    - flask-mongoengine
+    - flask-restplus
+    - 'git+https://github.com/facebookresearch/detectron2.git'
+prefix: /opt/anaconda3/envs/easyvision-env.
