@@ -1,0 +1,102 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: docker.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/ml-env
+  
+  
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      
+    - name: Setup Docker buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+      #uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
+      
+    # Login against a Docker registry except on PR
+    # https://github.com/docker/login-action
+    - name: Log into registry ${{ env.REGISTRY }}
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      
+      
+    # Extract metadata (tags, labels) for Docker
+    # https://github.com/docker/metadata-action
+    - name: Extract Docker metadata
+      id: meta_ml-env
+      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      with:
+        images: |
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        flavor: latest=false
+        tags: |
+          type=semver,pattern={{version}}
+          type=ref,event=branch
+    
+    - name: Docker Buildx Bake
+      #id: build_webserver
+      # You may pin to the exact commit or the version.
+      # uses: docker/bake-action@bbd00fcb029a25b4aad41760939ab07653db1d5f
+      uses: docker/bake-action@v1.7.0
+      with:
+        # Builder instance
+        #builder: # optional
+        # List of bake definition files
+        platforms: linux/amd64,linux/arm/v7, linux/arm64
+        files: |
+          docker-compose.build.yml
+        #  ${{ steps.meta_webserver.outputs.bake-file }}
+        # List of bake targets
+        targets: ml-env
+        # Do not use cache when building the image
+        no-cache: false # optional, default is false
+        # Always attempt to pull a newer version of the image
+        pull: false # optional, default is false
+        # Load is a shorthand for --set=*.output=type=docker
+        load: false # optional, default is false
+        # Push is a shorthand for --set=*.output=type=registry
+        push: true # optional, default is false
+        # List of targets values to override (eg. targetpattern.key=value)
+        set: ml-env.tags=${{ steps.meta_ml-env.outputs.tags }}
+        #set: webserver.tags=${{ fromJSON(steps.meta_webserver.outputs.json).tags}}
+          
+          
+          
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm/v7
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.<meta_id>.outputs.tags }}
+        labels: ${{ steps.<meta_id>.outputs.labels }}
