@@ -63,29 +63,11 @@ jobs:
           type=semver,pattern={{version}}
           type=ref,event=branch
     
-    - name: Docker Buildx Bake
-      #id: build_webserver
-      # You may pin to the exact commit or the version.
-      # uses: docker/bake-action@bbd00fcb029a25b4aad41760939ab07653db1d5f
-      uses: docker/bake-action@v1.7.0
+    - name: Build and push
+      uses: docker/build-push-action@v2
       with:
-        # Builder instance
-        #builder: # optional
-        # List of bake definition files
+        context: .
         platforms: linux/amd64,linux/arm/v7, linux/arm64
-        files: |
-          docker-compose.build.yml
-        #  ${{ steps.meta_webserver.outputs.bake-file }}
-        # List of bake targets
-        targets: ml-env
-        # Do not use cache when building the image
-        no-cache: false # optional, default is false
-        # Always attempt to pull a newer version of the image
-        pull: false # optional, default is false
-        # Load is a shorthand for --set=*.output=type=docker
-        load: false # optional, default is false
-        # Push is a shorthand for --set=*.output=type=registry
-        push: true # optional, default is false
-        # List of targets values to override (eg. targetpattern.key=value)
-        set: ml-env.tags=${{ steps.meta_ml-env.outputs.tags }}
-        #set: webserver.tags=${{ fromJSON(steps.meta_webserver.outputs.json).tags}}
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.meta_ml-env.outputs.tags }}
+        labels: ${{ steps.meta_ml-env.outputs.labels }}
