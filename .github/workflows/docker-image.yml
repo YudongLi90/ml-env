@@ -89,14 +89,3 @@ jobs:
         # List of targets values to override (eg. targetpattern.key=value)
         set: ml-env.tags=${{ steps.meta_ml-env.outputs.tags }}
         #set: webserver.tags=${{ fromJSON(steps.meta_webserver.outputs.json).tags}}
-          
-          
-          
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        platforms: linux/amd64,linux/arm/v7
-        push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ steps.<meta_id>.outputs.tags }}
-        labels: ${{ steps.<meta_id>.outputs.labels }}
