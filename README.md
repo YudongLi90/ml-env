@@ -1,5 +1,5 @@
 # ml-env
-[![Docker Image CI](https://github.com/YudongLi90/ml-env/actions/workflows/docker-image.yml/badge.svg)](https://github.com/YudongLi90/ml-env/actions/workflows/docker-image.yml)
+[![Docker](https://github.com/YudongLi90/ml-env/actions/workflows/docker-image.yml/badge.svg)](https://github.com/YudongLi90/ml-env/actions/workflows/docker-image.yml)
 
 Machine learning docker environment
 
