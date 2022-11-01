@@ -71,3 +71,5 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta_ml-env.outputs.tags }}
         labels: ${{ steps.meta_ml-env.outputs.labels }}
+        cache-from: type=registry,ref=user/app:buildcache
+        cache-to: type=registry,ref=user/app:buildcache,mode=max
