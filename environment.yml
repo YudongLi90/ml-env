@@ -9,7 +9,6 @@ dependencies:
   - flask-cors
   - flask-login
   - flask-socketio
-  - flask-restx
   - watchdog
   - pytest
   - pytest-ordering
@@ -36,4 +35,5 @@ dependencies:
     - flask-mongoengine
     - 'git+https://github.com/facebookresearch/detectron2.git'
     - 'https://github.com/benoitc/gunicorn/archive/refs/heads/master.zip#egg=gunicorn==20.1.0'
+    - 'https://github.com/python-restx/flask-restx.git'
 prefix: /opt/anaconda3/envs/easyvision-env.
