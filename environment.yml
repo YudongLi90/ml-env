@@ -5,7 +5,6 @@ channels:
   - defaults
 dependencies:
   - eventlet>0.31.0
-  - flask
   - flask-cors
   - flask-login
   - flask-socketio
@@ -36,5 +35,7 @@ dependencies:
     - google_images_download
     - 'git+https://github.com/facebookresearch/detectron2.git'
     - 'https://github.com/benoitc/gunicorn/archive/refs/heads/master.zip#egg=gunicorn==20.1.0'
-    - 'git+https://github.com/python-restx/flask-restx.git'
+    - 'werkzeug==2.1.2'
+    - 'flask==2.1.2'
+    - 'flask-restx==0.5.1'
 prefix: /opt/anaconda3/envs/easyvision-env.
