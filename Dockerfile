@@ -14,3 +14,5 @@ COPY ./environment.yml /workspace/
 RUN conda env create -f environment.yml
 RUN sed -i 's/conda activate base/conda activate easyvision-env/' ~/.bashrc
 ENV PATH=/opt/conda/envs/easyvision-env/bin/:$PATH
+RUN pip install torch==1.9.0 torchvision==0.10.0 torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
+RUN python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
