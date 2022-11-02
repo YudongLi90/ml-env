@@ -32,8 +32,6 @@ dependencies:
   - pip:
     - flask-mongoengine
     - google_images_download
-    - torch
-    - torchvision
     #- 'git+https://github.com/facebookresearch/detectron2.git'
     - 'gunicorn==19.9.0'
     #- 'https://github.com/benoitc/gunicorn/archive/refs/heads/master.zip#egg=gunicorn==20.1.0'
