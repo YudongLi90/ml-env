@@ -5,7 +5,7 @@ channels:
   - defaults
 dependencies:
   - python=3.8
-  - eventlet>0.31.0
+  - eventlet<0.30.3
   - flask-cors
   - flask-login
   - flask-socketio
@@ -35,7 +35,7 @@ dependencies:
     - flask-mongoengine
     - google_images_download
     - 'git+https://github.com/facebookresearch/detectron2.git'
-    - 'gunicorn[eventlet]==19.9.0'
+    - 'gunicorn==19.9.0'
     #- 'https://github.com/benoitc/gunicorn/archive/refs/heads/master.zip#egg=gunicorn==20.1.0'
     - 'werkzeug==2.1.2'
     - 'flask==2.1.2'
